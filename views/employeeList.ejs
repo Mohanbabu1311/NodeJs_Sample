@@ -1,0 +1,100 @@
+<%- include('partials/header'); -%>
+
+<header>
+  <div class="logo">
+    <img src="/Zenitus.png" width="100rem" height="100rem" alt="" class="logo1">
+    <h2 class="listh2">Employee List</h2>
+  </div>
+</header>
+<body>      
+    <% if (employees.length > 0) { %>
+        <% employees.forEach(employee => { %>
+          <div class="emp_list">
+          <a class="single" href="/employee/<%= employee._id %>">
+            <div class="row">
+                <div class="column">
+                    <div class="header-h2">
+                       <h2><%=employee.firstname %> </h2>&nbsp;<h2><%=employee.midname %></h2>&nbsp;<h2><%=employee.lastname %></h2>
+                    </div> 
+                    <div class="below">
+                       <p><%=employee.pre_company %></p>
+                       <p id="create_date"><%=employee.createdAt %></p>
+                    </div>
+                </div>
+            </div>
+            </a>
+          </div>
+            <% }) %>
+            <% } else { %>
+        <p>There are no Employees to display...</p>
+      <% } %>
+    
+    <script>
+    // Get the elements with class="column"
+    var elements = document.getElementsByClassName("row");
+    
+    // Declare a loop variable
+    var i;
+    
+    // List View
+    function listView() {
+      for (i = 0; i < elements.length; i++) {
+        elements[i].style.width = "100%";
+      }
+    }
+    
+    </script>
+    
+    </body>
+
+<style>
+    * {
+      box-sizing: border-box;
+    }
+    /* .emp_list:hover{
+      background-color: #190202;
+    } */
+    /* Clear floats after the columns */
+    .row::before{
+      content: "";
+      display: table;
+      clear: both;
+    }
+    .column{
+      background-color: #f1dada;
+    }
+    .column:hover{
+      background-color: #f39393;
+    }
+    
+    .logo1{
+        float: left;
+    }
+    .listh2{
+        clear: left;
+        float: right;
+    }
+
+    div{
+        margin-top: 1%;
+    }
+    .column {
+        padding-top: 0.3rem;
+        padding-left: 0.2rem;
+        padding-bottom: 0.3rem;
+    }
+    .header-h2{
+      display: flex;
+      
+    }
+    .below{
+      display: flex;
+    }
+    #create_date{
+      margin-left: 10rem;
+    }
+    
+    /* Style the buttons */
+    </style>
+
+<%- include('partials/footer'); -%>

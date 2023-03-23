@@ -1,0 +1,63 @@
+<%- include('partials/header'); -%>
+
+<header>
+  <div class="logo" >
+  <img src="/Zenitus.png" width="100rem" height="100rem" alt="" class="logo1">
+  </div>
+</header>
+
+<form action="/login" method="post">
+    <h2>Login</h2>
+    <label for="email">Email</label>
+    <input type="text" name="email" required />
+    <div class="email error"></div>
+    <label for="password">Password</label>
+    <input type="password" name="password" required />
+    <div class="password error"></div>
+    <div class="verification error"></div>
+    <button>Login</button>
+  </form>
+
+  <script>
+    const form = document.querySelector('form');
+    const emailError = document.querySelector('.email.error');
+    const passwordError = document.querySelector('.password.error');
+    const verifyError = document.querySelector('.verification.error');
+
+    form.addEventListener('submit',async (e)=>{
+      e.preventDefault();
+
+      //reset error message
+      emailError.textContent = '';
+      passwordError.textContent = '';
+      verifyError.textContent = '';
+
+      const email = form.email.value;
+      const password = form.password.value;
+
+      // console.log(email, password);
+      try{
+        const res = await fetch('/login',{
+          method : 'POST',
+          body : JSON.stringify({ email, password }),
+          headers : {  'Content-Type' : 'application/json' }
+        });
+        const data = await res.json();
+        if(data.errors){
+          console.log(data.errors.email,'error');
+          emailError.textContent = data.errors.email;
+          passwordError.textContent = data.errors.password;
+          verifyError.textContent = data.errors.verified;
+        }
+        if(data.user){
+          //console.log('Logged Sc');
+          location.assign('/');
+        }
+      }
+      catch(err){
+        console.log(err);
+      }
+    })
+  </script>
+
+<%- include('partials/footer'); -%>

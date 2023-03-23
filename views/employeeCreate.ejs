@@ -1,0 +1,109 @@
+<%- include('partials/header'); -%>
+
+<header>
+  <div class="logo" >
+  <img src="/Zenitus.png" width="100rem" height="100rem" alt="" class="logo1">
+  <h2 class="listh2" style="clear: left; float: right;">Create Employee</h2>
+  </div>
+</header>
+<body>
+  <form action="/" id="emp_form">
+      <div class="container-inline" >
+          <label for="frstName">First Name:</label>
+          <input type="text" id="frstName" placeholder="Enter First Name" name="firstname">
+          <label for="midName">Middle Name:</label>
+          <input type="text" id="pwd" placeholder="Enter Middle Name" name="midname">
+          <label for="lastname">Last Name:</label>
+          <input type="text" id="lastname" placeholder="Enter lastname" name="lastname">
+      </div>
+      <div class="container-inline" >
+          <label for="address">Address 1 :</label>
+          <input type="address" id="address" placeholder="Enter Address" name="add1">
+          <label for="address">Address 2 :</label>
+          <input type="address" id="address" placeholder="Enter Address" name="add2">
+      </div>
+      <div class="container-inline" >
+          <label for="city">City :</label>
+          <input type="city" id="city" placeholder="Enter city" name="city">
+          <label for="pncd">Pincode:</label>
+          <input type="text" onkeypress="return /[0-9]/i.test(event.key)" id="pncd" placeholder="Enter Pincode" name="pincode">
+      </div>
+      <div class="container-inline" >
+          <label for="pcmp">Previous Company :</label>
+          <input type="text" id="pcmp" placeholder="Enter Previous Company" name="pre_company">
+          <label for="bgrp">Blood Group :</label>
+          <input type="bgrp" id="bgrp" placeholder="Enter Blood Group" name="blood_grp">
+      </div>
+      <div class="container-inline" >
+        <label for="mobile">Mobile Number :</label>
+        <input type="text" onkeypress="return /[0-9]/i.test(event.key)" id="pncd" maxlength="10"  placeholder="Enter Mobile Number" name="mobile">
+        <label for="role">Current Role :</label>
+        <input type="text" id="role" placeholder="Enter Role" name="role">
+    </div>
+      <button type="submit">Submit</button>
+      
+    </form>
+
+  </body>
+    <script>
+      const form_value = document.querySelector('form');
+
+      form_value.addEventListener('submit', async(e)=>{
+          e.preventDefault();
+          const firstname1 = form_value.firstname.value;
+          const midname1 = form_value.midname.value;
+          const lastname1 = form_value.lastname.value;
+          const add_1 = form_value.add1.value;
+          const add_2 = form_value.add2.value;
+          const city1 = form_value.city.value;
+          const pincode1 = form_value.pincode.value;
+          const pre_company1 = form_value.pre_company.value;
+          const blood_grp1 = form_value.blood_grp.value;
+          const role = form_value.role.value;
+          const mobile = form_value.mobile.value;
+          console.log(mobile);
+
+          const firstname = firstname1.charAt(0).toUpperCase() + firstname1.slice(1);
+          const midname= midname1.charAt(0).toUpperCase() + midname1.slice(1);
+          const lastname = lastname1.charAt(0).toUpperCase() + lastname1.slice(1);
+          const add1 = add_1.charAt(0).toUpperCase() + add_1.slice(1);
+          const add2 = add_2.charAt(0).toUpperCase() + add_2.slice(1);
+          const city = city1.charAt(0).toUpperCase() + city1.slice(1);
+          const pincode = pincode1.charAt(0).toUpperCase() + pincode1.slice(1);
+          const pre_company = pre_company1.charAt(0).toUpperCase() + pre_company1.slice(1);
+          const blood_grp = blood_grp1.charAt(0).toUpperCase() + blood_grp1.slice(1);
+          console.log('Coming Here');
+          console.log(firstname);
+
+          try{
+          const res = await fetch('/create-employee',{
+            method : 'POST',
+            body : JSON.stringify({ firstname, midname, lastname, add1, add2, city, pincode, pre_company, blood_grp, mobile, role }),
+            headers : {  'Content-Type' : 'application/json' }
+          });
+          const data = await res.json();
+          if(data.errors){
+            console.log(data.errors);
+            console.log('error');
+          }
+          if(data.employee){
+            console.log('it is coming here');
+            location.assign('/');
+          }
+        }
+        catch(err){
+          console.log(err);
+        }
+          
+      })
+
+    </script>
+    <style>
+      #emp_form{
+        margin-top: 3rem;
+      }
+      #firstname:first-letter { text-transform: uppercase; }
+    </style>
+
+
+<%- include('partials/footer'); -%>
